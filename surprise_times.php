@@ -1,8 +1,8 @@
 <?php
 require __DIR__ . '/db_connect.php';
 
-$title = '驚喜廚房項目';
-$pageName = 'surprise_list_detail';
+$title = '驚喜廚房場次';
+$pageName = 'surprise_times';
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $page = isset($_GET['search']) ? ($_GET['search']) : '';
@@ -10,20 +10,20 @@ $params = [];
 
 $where = 'WHERE 1';
 if (!empty($search)) {
-    $where .= sprintf(" AND `Numpeople` LIKE %s", $pdo->quote('%' . $search . '%'));
+    $where .= sprintf(" AND `ReservationTime` LIKE %s", $pdo->quote('%' . $search . '%'));
     $params['search'] = $search;
 }
 
 
 $perPage = 10;
-$t_sql = "SELECT COUNT(1) FROM surprise_list_detail $where";
+$t_sql = "SELECT COUNT(1) FROM surprise_times $where";
 $totalRows = $pdo->query($t_sql)->fetch()['COUNT(1)'];
 $totalPages = ceil($totalRows / $perPage);
 
 if ($page > $totalPages) $page = $totalPages;
 if ($page < 1) $page = 1;
 
-$p_sql = sprintf("SELECT * FROM surprise_list_detail %s ORDER BY sid ASC LIMIT %s ,%s", $where, ($page - 1) * $perPage, $perPage);
+$p_sql = sprintf("SELECT * FROM surprise_times %s ORDER BY sid ASC LIMIT %s ,%s", $where, ($page - 1) * $perPage, $perPage);
 
 $stmt = $pdo->query($p_sql);
 
@@ -104,9 +104,7 @@ $stmt = $pdo->query($p_sql);
                     <tr>
                         <th></th>
                         <th scope="col">sid</th>
-                        <th scope="col">Numpeople</th>
-                        <th scope="col">NumMeal</th>
-                        <th scope="col">OrderPrice</th>
+                        <th scope="col">ReservationTime</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -117,9 +115,7 @@ $stmt = $pdo->query($p_sql);
                                     <i class="fas fa-trash-alt"></i>
                                 </a></td>
                             <td><?= $r['sid'] ?></td>
-                            <td><?= $r['NumPeople'] ?></td>
-                            <td><?= $r['NumMeal'] ?></td>
-                            <td><?= $r['OrderPrice'] ?></td>
+                            <td><?= $r['ReservationTime'] ?></td>
                             <td class="edit-icon"><a href="ad_edit.php?sid=<?= $r['sid'] ?>">
                                     <i class="fas fa-edit"></i>
                                 </a></td>

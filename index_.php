@@ -1,5 +1,5 @@
 <?php
-$title = '首頁';
+$title = 'SinpleMeal';
 ?>
 
 <?php include __DIR__ ."/parts/head.php"?>
