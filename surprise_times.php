@@ -5,7 +5,7 @@ $title = '驚喜廚房場次';
 $pageName = 'surprise_times';
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-$page = isset($_GET['search']) ? ($_GET['search']) : '';
+$search = isset($_GET['search']) ? ($_GET['search']) : '';
 $params = [];
 
 $where = 'WHERE 1';

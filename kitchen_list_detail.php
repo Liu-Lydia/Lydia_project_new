@@ -5,7 +5,7 @@ $title = '私廚料理項目';
 $pageName = 'kitchen_list_detail';
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-$page = isset($_GET['search']) ? ($_GET['search']) : '';
+$search = isset($_GET['search']) ? ($_GET['search']) : '';
 $params = [];
 
 $where = 'WHERE 1';
