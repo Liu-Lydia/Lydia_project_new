@@ -35,7 +35,7 @@ if (!isset($pageName)) $pageName = '';
                         <a class="dropdown-item self-color" href="surprise_list_detail_insert.php">新增項目</a>
                         <a class="dropdown-item self-color" href="surprise_list_detail.php">項目</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item self-color" href="surprise_times.php">新增場次</a>
+                        <a class="dropdown-item self-color" href="surprise_times_insert.php">新增場次</a>
                         <a class="dropdown-item self-color" href="surprise_times.php">場次</a>
                     </div>
                 </li>
@@ -44,10 +44,10 @@ if (!isset($pageName)) $pageName = '';
                         私廚料理
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item self-color" href="#">新增項目</a>
+                        <a class="dropdown-item self-color" href="kitchen_list_detail_insert.php">新增項目</a>
                         <a class="dropdown-item self-color" href="kitchen_list_detail.php">項目</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item self-color" href="#">新增場次</a>
+                        <a class="dropdown-item self-color" href="kitchen_times_insert.php">新增場次</a>
                         <a class="dropdown-item self-color" href="kitchen_times.php">場次</a>
                     </div>
                 </li>

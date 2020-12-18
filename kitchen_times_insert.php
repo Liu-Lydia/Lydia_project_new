@@ -1,8 +1,6 @@
 <?php
-
-
-$title = '驚喜廚房新增項目';
-$pageName = 'surprise_list_detail_insert';
+$title = '私廚料理新增場次';
+$pageName = 'kitcken_times_insert';
 ?>
 
 <?php include __DIR__ . "/parts/head.php"; ?>
@@ -25,32 +23,13 @@ $pageName = 'surprise_list_detail_insert';
             <div class="card mt-4">
 
                 <div class="card-body pt-0 pb-0">
-                    <h5 class="card-title text-center pt-4">新增驚喜廚房項目</h5>
+                    <h5 class="card-title text-center pt-4">新增私廚料理場次</h5>
 
                     <form method="POST" name="form1" novalidate onsubmit="CheckForm(); return false;">
-                        <p class="mt-4">選擇人數</p>
-                        <select class="form-control" id="NumPeople" name="NumPeople">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                        </select>
-
-                        <p class="mt-4">選擇幾道餐數</p>
-                        <select class="form-control" id="NumMeal" name="NumMeal">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                        </select>
-
+                        
                         <div class="form-group mt-4">
-                            <label for="OrderPrice">輸入預約金額&nbsp;&nbsp;*500/人*</label>
-                            <input type="text" class="form-control mt-2" id="OrderPrice" name="OrderPrice" required>
+                            <label for="ReservationTime">輸入場次時間&nbsp;&nbsp;ex : "11:30"</label>
+                            <input type="text" class="form-control mt-2" id="ReservationTime" name="ReservationTime" required>
                             <small class="form-text error-msg" style="display:none;"></small>
                         </div>
 
@@ -70,27 +49,27 @@ $pageName = 'surprise_list_detail_insert';
 
 <script>
     const info = document.querySelector('#info');
-    const OrderPrice = document.querySelector('#OrderPrice');
+    const ReservationTime = document.querySelector('#ReservationTime');
 
     function CheckForm() {
         info.style.display = 'none';
         let isPass = true;
 
-        OrderPrice.style.borderColor = '#CCCCCC';
-        OrderPrice.nextElementSibling.style.display = 'none';
+        ReservationTime.style.borderColor = '#CCCCCC';
+        ReservationTime.nextElementSibling.style.display = 'none';
 
-        if (OrderPrice.value.length === 0) {
+        if (ReservationTime.value.length === 0) {
             isPass = false;
-            OrderPrice.style.borderColor = 'red';
-            let small = OrderPrice.closest('.form-group').querySelector('small');
-            small.innerText = "請輸入金額";
+            ReservationTime.style.borderColor = 'red';
+            let small = ReservationTime.closest('.form-group').querySelector('small');
+            small.innerText = "請輸入場次時間";
             small.style.display = "block";
         }
 
         if (isPass) {
             const fd = new FormData(document.form1);
 
-            fetch('surprise_list_detail_insert_api.php', {
+            fetch('kitchen_times_insert_api.php', {
                     method: 'POST',
                     body: fd
                 })

@@ -15,7 +15,7 @@ if (!empty($search)) {
 }
 
 
-$perPage = 10;
+$perPage = 3;
 $t_sql = "SELECT COUNT(1) FROM surprise_times $where";
 $totalRows = $pdo->query($t_sql)->fetch()['COUNT(1)'];
 $totalPages = ceil($totalRows / $perPage);

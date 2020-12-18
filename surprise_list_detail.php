@@ -15,7 +15,7 @@ if (!empty($search)) {
 }
 
 
-$perPage = 10;
+$perPage = 3;
 $t_sql = "SELECT COUNT(1) FROM surprise_list_detail $where";
 $totalRows = $pdo->query($t_sql)->fetch()['COUNT(1)'];
 $totalPages = ceil($totalRows / $perPage);
@@ -120,7 +120,7 @@ $stmt = $pdo->query($p_sql);
                             <td><?= $r['NumPeople'] ?></td>
                             <td><?= $r['NumMeal'] ?></td>
                             <td><?= $r['OrderPrice'] ?></td>
-                            <td class="edit-icon"><a href="ad_edit.php?sid=<?= $r['sid'] ?>">
+                            <td class="edit-icon"><a href="surprise_list_detail_edit.php?sid=<?= $r['sid'] ?>">
                                     <i class="fas fa-edit"></i>
                                 </a></td>
                         </tr>

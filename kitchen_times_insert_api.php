@@ -8,20 +8,18 @@ $output = [
 ];
 
 
-if(! isset($_POST['OrderPrice'])){
+if(! isset($_POST['ReservationTime'])){
     echo json_encode($output, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-$sql = "INSERT INTO `surprise_list_detail`(`sid`, `NumPeople`, `NumMeal`, `OrderPrice`) VALUES (null, ?, ?, ?)";
+$sql = "INSERT INTO `kitchen_times`(`sid`, `ReservationTime`) VALUES (null, ?)";
 //新增整個表單連同sid null也要放入
 
 $stmt = $pdo ->prepare($sql);
 
 $stmt -> execute([
-    intval($_POST['NumPeople']),
-    intval($_POST['NumMeal']),
-    intval($_POST['OrderPrice']),
+    intval($_POST['ReservationTime']),
 ]);
 //將表單放入執行,對應的是name
 

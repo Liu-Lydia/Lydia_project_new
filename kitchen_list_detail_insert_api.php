@@ -8,25 +8,25 @@ $output = [
 ];
 
 
-if(! isset($_POST['OrderPrice'])){
+if (!isset($_POST['Price'])) {
     echo json_encode($output, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-$sql = "INSERT INTO `surprise_list_detail`(`sid`, `NumPeople`, `NumMeal`, `OrderPrice`) VALUES (null, ?, ?, ?)";
+$sql = "INSERT INTO `kitchen_list_detail`(`sid`, `NumPeople`, `SetMeal`, `Price`) VALUES (null, ?, ?, ?)";
 //新增整個表單連同sid null也要放入
 
-$stmt = $pdo ->prepare($sql);
+$stmt = $pdo->prepare($sql);
 
-$stmt -> execute([
-    intval($_POST['NumPeople']),
-    intval($_POST['NumMeal']),
-    intval($_POST['OrderPrice']),
+$stmt->execute([
+    $_POST['NumPeople'],
+    $_POST['SetMeal'],
+    intval($_POST['Price']),
 ]);
 //將表單放入執行,對應的是name
 
-$output['rowCount'] = $stmt -> rowCount();
-if($stmt -> rowCount()){
+$output['rowCount'] = $stmt->rowCount();
+if ($stmt->rowCount()) {
     $output['success'] = true;
     unset($output['error']);
 }
