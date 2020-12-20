@@ -8,20 +8,20 @@ $output = [
     'error' => '參數不足',
 ];
 
-if(! isset($_POST['OrderPrice'])){
+if(! isset($_POST['ReservationTime'])){
     echo json_encode($output, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-$sql = "INSERT INTO `surprise_list_detail`(`sid`, `NumPeople`, `NumMeal`, `OrderPrice`) VALUES (null, ?, ?, ?)";
-//新增整個表單連同sid null也要放入
+$sql = "UPDATE `surprise_times` SET 
+`ReservationTime`=? 
+WHERE `sid`=?";
 
 $stmt = $pdo ->prepare($sql);
 
 $stmt -> execute([
-    intval($_POST['NumPeople']),
-    intval($_POST['NumMeal']),
-    intval($_POST['OrderPrice']),
+    $_POST['ReservationTime'],
+    intval($_POST['sid'])
 ]);
 //將表單放入執行,對應的是name
 
@@ -29,6 +29,8 @@ $output['rowCount'] = $stmt -> rowCount();
 if($stmt -> rowCount()){
     $output['success'] = true;
     unset($output['error']);
+}else{
+    $output['error'] = '資料沒有修改';
 }
 
 echo json_encode($output, JSON_UNESCAPED_UNICODE);

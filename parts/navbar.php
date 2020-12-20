@@ -17,7 +17,7 @@ if (!isset($pageName)) $pageName = '';
     }
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar navbar-expand-lg navbar-light mb-4">
     <div class="container">
         <a class="navbar-brand self-bg" href="index_.php">SimpleMeal</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,10 @@ if (!isset($pageName)) $pageName = '';
                         <a class="dropdown-item self-color" href="kitchen_times.php">場次</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item">
+                    <a class="nav-link self-color" href="#">預約驚喜廚房</a>
+                </li>
+                <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         私廚料理菜色組合
                     </a>
@@ -62,8 +65,27 @@ if (!isset($pageName)) $pageName = '';
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item self-color" href="#">C組合</a>
                     </div>
+                </li> -->
+
+            </ul>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link self-color" href="#">購物車</a>
                 </li>
 
+                <?php if (isset($_SESSION['admins'])) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ad_admins_edit.php"><?= $_SESSION['admins']['nickname'] ?></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php">登出</a>
+                    </li>
+                <?php else : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.php">登入</a>
+                    </li>
+                <?php endif ?>
             </ul>
 
         </div>

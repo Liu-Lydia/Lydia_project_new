@@ -1,13 +1,8 @@
 <?php
 require __DIR__ . '/db_connect.php';
 
-$title = '驚喜廚房場次';
-$pageName = 'surprise_times';
-
-if (!isset($_SESSION['admins'])) {
-    include __DIR__ . '/surprise_times_noadmin.php';
-    exit;
-}
+$title = '預約驚喜廚房';
+$pageName = 'surprise_list';
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $search = isset($_GET['search']) ? ($_GET['search']) : '';
@@ -15,21 +10,27 @@ $params = [];
 
 $where = 'WHERE 1';
 if (!empty($search)) {
-    $where .= sprintf(" AND `ReservationTime` LIKE %s", $pdo->quote('%' . $search . '%'));
+    $where .= sprintf(" AND `Numpeople` LIKE %s", $pdo->quote('%' . $search . '%'));
     $params['search'] = $search;
 }
 
 $perPage = 3;
-$t_sql = "SELECT COUNT(1) FROM surprise_times $where";
+$t_sql = "SELECT COUNT(1) FROM surprise_list $where";
 $totalRows = $pdo->query($t_sql)->fetch()['COUNT(1)'];
 $totalPages = ceil($totalRows / $perPage);
 
 if ($page > $totalPages) $page = $totalPages;
 if ($page < 1) $page = 1;
 
-$p_sql = sprintf("SELECT * FROM surprise_times %s ORDER BY sid ASC LIMIT %s ,%s", $where, ($page - 1) * $perPage, $perPage);
+$p_sql = sprintf("SELECT * FROM surprise_list %s ORDER BY sid ASC LIMIT %s ,%s", $where, ($page - 1) * $perPage, $perPage);
 
 $stmt = $pdo->query($p_sql);
+
+$t_sql = "SELECT * FROM surprise_times WHERE 1";
+$times = $pdo->query($t_sql)->fetchAll();
+
+$n_sql = "SELECT * FROM surprise_list_detail WHERE 1";
+$num = $pdo->query($n_sql)->fetchAll();
 ?>
 
 <?php include __DIR__ . "/parts/head.php" ?>
@@ -93,39 +94,47 @@ $stmt = $pdo->query($p_sql);
 
         <div class="col d-flex flex-row-reverse bd-highlight">
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" name="search" value="<?= htmlentities($search) ?>" placeholder="ReservationTime" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" name="search" value="<?= htmlentities($search) ?>" placeholder="Numpeople" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </div>
 
     <div class="row">
-        <div class="col mt-4">
-            <table class="table table-striped text-center">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th scope="col">sid</th>
-                        <th scope="col">ReservationTime</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($r = $stmt->fetch()) : ?>
-                        <tr>
-                            <td class="remove-icon"><a href="javascript:del_it(<?= $r['sid'] ?>)">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a></td>
-                            <td><?= $r['sid'] ?></td>
-                            <td><?= htmlentities($r['ReservationTime']) ?></td>
-                            <td class="edit-icon"><a href="surprise_times_edit.php?sid=<?= $r['sid'] ?>">
-                                    <i class="fas fa-edit"></i>
-                                </a></td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        </div>
+        <?php foreach ($stmt as $r) : ?>
+            <div class="col-lg-3 mt-4" data-sid="<?= $r['sid'] ?>">
+                <div class="card">
+                    <img src="imgs/<?= $r['img'] ?>.jpg" class="card-img-top"  alt="">
+                    <div class="card-body text-center">
+                        <h6 class="card-text">驚喜廚房&nbsp;&nbsp;<?= $r['ReservationDate'] ?></h6>
+                        <form>
+                            <div class="form-group">
+                                <select class="form-control qty" style="display: inline-block; width: auto">
+                                    <?php foreach ($times as $t): ?>
+                                    <option value="<?= $t['sid'] ?>"><?= $t['ReservationTime'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+
+                                <select class="form-control qty" style="display: inline-block; width: auto">
+                                    <?php foreach ($num as $n): ?>
+                                    <option value="<?= $n['sid'] ?>"><?= $n['NumPeople'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+
+                                <select class="form-control qty" style="display: inline-block; width: auto">
+                                <?php foreach ($num as $n): ?>
+                                    <option value="<?= $n['sid'] ?>"><?= $n['NumMeal'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+
+                                <button type="button" class="btn btn-primary add-to-cart-btn"><i class="fas fa-cart-plus"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        <?php endforeach; ?>
     </div>
 
 </div>

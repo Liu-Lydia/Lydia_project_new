@@ -1,8 +1,25 @@
 <?php
 require __DIR__ . '/is_admins.php';
+require __DIR__ . '/db_connect.php';
 
-$title = '驚喜廚房新增項目';
-$pageName = 'surprise_list_detail_insert';
+$title = '私廚料理項目修改';
+$pageName = 'kitchen_list_detail_edit';
+
+if (!isset($_GET['sid'])) {
+    header('Location:kitchen_list_detail.php');
+    exit;
+}
+
+$sid = intval($_GET['sid']);
+
+$row = $pdo
+    ->query("SELECT * FROM kitchen_list_detail WHERE sid=$sid")
+    ->fetch();
+
+if (empty($row)) {
+    header('Location: kitchen_list_detail.php');
+    exit;
+}
 ?>
 
 <?php include __DIR__ . "/parts/head.php"; ?>
@@ -25,31 +42,34 @@ $pageName = 'surprise_list_detail_insert';
 
             <div class="card mt-4">
                 <div class="card-body pt-0 pb-0">
-                    <h5 class="card-title text-center pt-4">新增驚喜廚房項目</h5>
+                    <h5 class="card-title text-center pt-4">編輯私廚料理項目</h5>
 
                     <form method="POST" name="form1" novalidate onsubmit="CheckForm(); return false;">
+                        <input type="hidden" name="sid" value="<?= $sid ?>">
                         <p class="mt-4">選擇人數</p>
-                        <select class="form-control" id="NumPeople" name="NumPeople">
-                            <?php for ($i = 1; $i < 7; $i++) : ?>
-                                <option><?= $i ?></option>
-                            <?php endfor; ?>
+                        <select class="form-control" id="NumPeople" name="NumPeople" value="<?= $row['NumPeople'] ?>">
+                            <option><?= $row['NumPeople'] ?></option>
+                            <option>1-2人</option>
+                            <option>3-4人</option>
+                            <option>8-10人</option>
                         </select>
 
-                        <p class="mt-4">選擇幾道餐數</p>
-                        <select class="form-control" id="NumMeal" name="NumMeal">
-                            <?php for ($i = 1; $i < 7; $i++) : ?>
-                                <option><?= $i ?></option>
-                            <?php endfor; ?>
+                        <p class="mt-4">選擇套餐</p>
+                        <select class="form-control" id="SetMeal" name="SetMeal" value="<?= $row['SetMeal'] ?>">
+                            <option><?= $row['SetMeal'] ?></option>
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
                         </select>
 
                         <div class="form-group mt-4">
-                            <label for="OrderPrice">輸入預約金額&nbsp;&nbsp;*500/人*</label>
-                            <input type="text" class="form-control mt-2" id="OrderPrice" name="OrderPrice" required>
+                            <label for="Price">輸入套餐金額</label>
+                            <input type="text" class="form-control mt-2" id="Price" name="Price" value="<?= $row['Price'] ?>" required>
                             <small class="form-text error-msg" style="display:none;"></small>
                         </div>
 
                         <div class="d-flex justify-content-center mt-4 pt-4 pb-4">
-                            <button type="submit" class="btn btn-primary">新增</button>
+                            <button type="submit" class="btn btn-primary">修改</button>
                         </div>
                     </form>
                 </div>
@@ -64,19 +84,19 @@ $pageName = 'surprise_list_detail_insert';
 
 <script>
     const info = document.querySelector('#info');
-    const OrderPrice = document.querySelector('#OrderPrice');
+    const Price = document.querySelector('#Price');
 
     function CheckForm() {
         info.style.display = 'none';
         let isPass = true;
 
-        OrderPrice.style.borderColor = '#CCCCCC';
-        OrderPrice.nextElementSibling.style.display = 'none';
+        Price.style.borderColor = '#CCCCCC';
+        Price.nextElementSibling.style.display = 'none';
 
-        if (OrderPrice.value.length === 0) {
+        if (Price.value.length === 0) {
             isPass = false;
-            OrderPrice.style.borderColor = 'red';
-            let small = OrderPrice.closest('.form-group').querySelector('small');
+            Price.style.borderColor = 'red';
+            let small = Price.closest('.form-group').querySelector('small');
             small.innerText = "請輸入金額";
             small.style.display = "block";
         }
@@ -84,7 +104,7 @@ $pageName = 'surprise_list_detail_insert';
         if (isPass) {
             const fd = new FormData(document.form1);
 
-            fetch('surprise_list_detail_insert_api.php', {
+            fetch('kitchen_list_detail_edit_api.php', {
                     method: 'POST',
                     body: fd
                 })
@@ -94,14 +114,17 @@ $pageName = 'surprise_list_detail_insert';
                     if (obj.success) {
                         info.classList.remove('alert-danger');
                         info.classList.add('alert-success');
-                        info.innerHTML = '新增成功';
+                        info.innerHTML = '修改成功';
                     } else {
                         info.classList.remove('alert-success');
                         info.classList.add('alert-danger');
-                        info.innerHTML = obj.error || '新增失敗';
+                        info.innerHTML = obj.error || '修改失敗';
                     }
                     info.style.display = 'block';
                 })
+                .catch((err) => {
+                    console.log('錯誤', err);
+                });
         }
     }
 </script>

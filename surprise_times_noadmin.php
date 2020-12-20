@@ -4,11 +4,6 @@ require __DIR__ . '/db_connect.php';
 $title = '驚喜廚房場次';
 $pageName = 'surprise_times';
 
-if (!isset($_SESSION['admins'])) {
-    include __DIR__ . '/surprise_times_noadmin.php';
-    exit;
-}
-
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $search = isset($_GET['search']) ? ($_GET['search']) : '';
 $params = [];
@@ -40,8 +35,8 @@ $stmt = $pdo->query($p_sql);
         color: #B9433B;
     }
 
-    .edit-icon a i {
-        color: #a2a3a5;
+    .edit-icon a i{
+        color:#a2a3a5;
     }
 </style>
 
@@ -104,23 +99,15 @@ $stmt = $pdo->query($p_sql);
             <table class="table table-striped text-center">
                 <thead>
                     <tr>
-                        <th></th>
                         <th scope="col">sid</th>
                         <th scope="col">ReservationTime</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($r = $stmt->fetch()) : ?>
                         <tr>
-                            <td class="remove-icon"><a href="javascript:del_it(<?= $r['sid'] ?>)">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a></td>
                             <td><?= $r['sid'] ?></td>
                             <td><?= htmlentities($r['ReservationTime']) ?></td>
-                            <td class="edit-icon"><a href="surprise_times_edit.php?sid=<?= $r['sid'] ?>">
-                                    <i class="fas fa-edit"></i>
-                                </a></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

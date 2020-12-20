@@ -1,4 +1,6 @@
 <?php
+require __DIR__ . '/is_admins.php';
+
 $title = '私廚料理新增項目';
 $pageName = 'kitcken_list_detail_insert';
 ?>
@@ -13,9 +15,9 @@ $pageName = 'kitcken_list_detail_insert';
 </style>
 
 <div class="container">
+
     <div class="row d-flex justify-content-center">
         <div class="col-lg-6">
-
             <div class="alert alert-danger" role="alert" id="info" style="display: none">
                 錯誤
             </div>
@@ -50,11 +52,11 @@ $pageName = 'kitcken_list_detail_insert';
                             <button type="submit" class="btn btn-primary">新增</button>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 

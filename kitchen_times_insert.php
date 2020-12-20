@@ -1,4 +1,6 @@
 <?php
+require __DIR__ . '/is_admins.php';
+
 $title = '私廚料理新增場次';
 $pageName = 'kitcken_times_insert';
 ?>
@@ -13,6 +15,7 @@ $pageName = 'kitcken_times_insert';
 </style>
 
 <div class="container">
+
     <div class="row d-flex justify-content-center">
         <div class="col-lg-6">
 
@@ -21,7 +24,6 @@ $pageName = 'kitcken_times_insert';
             </div>
 
             <div class="card mt-4">
-
                 <div class="card-body pt-0 pb-0">
                     <h5 class="card-title text-center pt-4">新增私廚料理場次</h5>
 
@@ -29,7 +31,7 @@ $pageName = 'kitcken_times_insert';
                         
                         <div class="form-group mt-4">
                             <label for="ReservationTime">輸入場次時間&nbsp;&nbsp;ex : "11:30"</label>
-                            <input type="text" class="form-control mt-2" id="ReservationTime" name="ReservationTime" required>
+                            <input type="text" class="form-control mt-2" id="ReservationTime" name="ReservationTime" required pattern="\d{2}:?\d{2}">
                             <small class="form-text error-msg" style="display:none;"></small>
                         </div>
 
@@ -37,11 +39,11 @@ $pageName = 'kitcken_times_insert';
                             <button type="submit" class="btn btn-primary">新增</button>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
 
 

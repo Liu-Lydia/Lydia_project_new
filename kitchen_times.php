@@ -4,6 +4,11 @@ require __DIR__ . '/db_connect.php';
 $title = '私廚料理場次';
 $pageName = 'kitchen_times';
 
+if (!isset($_SESSION['admins'])) {
+    include __DIR__ . '/kitchen_times_noadmin.php';
+    exit;
+}
+
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $search = isset($_GET['search']) ? ($_GET['search']) : '';
 $params = [];
@@ -13,7 +18,6 @@ if (!empty($search)) {
     $where .= sprintf(" AND `ReservationTime` LIKE %s", $pdo->quote('%' . $search . '%'));
     $params['search'] = $search;
 }
-
 
 $perPage = 3;
 $t_sql = "SELECT COUNT(1) FROM kitchen_times $where";
@@ -26,7 +30,6 @@ if ($page < 1) $page = 1;
 $p_sql = sprintf("SELECT * FROM kitchen_times %s ORDER BY sid ASC LIMIT %s ,%s", $where, ($page - 1) * $perPage, $perPage);
 
 $stmt = $pdo->query($p_sql);
-
 ?>
 
 <?php include __DIR__ . "/parts/head.php" ?>
@@ -36,15 +39,15 @@ $stmt = $pdo->query($p_sql);
     .remove-icon a i {
         color: #B9433B;
     }
-    .edit-icon a i{
-        color:#a2a3a5;
+
+    .edit-icon a i {
+        color: #a2a3a5;
     }
 </style>
 
 <div class="container">
 
     <div class="row mt-2">
-
         <div class="col">
             <nav aria-label="Page navigation example">
                 <ul class="pagination m-0">
@@ -94,7 +97,6 @@ $stmt = $pdo->query($p_sql);
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
-
     </div>
 
     <div class="row">
@@ -115,8 +117,8 @@ $stmt = $pdo->query($p_sql);
                                     <i class="fas fa-trash-alt"></i>
                                 </a></td>
                             <td><?= $r['sid'] ?></td>
-                            <td><?= $r['ReservationTime'] ?></td>
-                            <td class="edit-icon"><a href="ad_edit.php?sid=<?= $r['sid'] ?>">
+                            <td><?= htmlentities($r['ReservationTime']) ?></td>
+                            <td class="edit-icon"><a href="kitchen_times_edit.php?sid=<?= $r['sid'] ?>">
                                     <i class="fas fa-edit"></i>
                                 </a></td>
                         </tr>

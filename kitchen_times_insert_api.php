@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/is_admins.php';
 require __DIR__ . '/db_connect.php';
 
 $output = [
@@ -6,7 +7,6 @@ $output = [
     'code' => 0,
     'error' => '參數不足',
 ];
-
 
 if(! isset($_POST['ReservationTime'])){
     echo json_encode($output, JSON_UNESCAPED_UNICODE);
@@ -19,7 +19,7 @@ $sql = "INSERT INTO `kitchen_times`(`sid`, `ReservationTime`) VALUES (null, ?)";
 $stmt = $pdo ->prepare($sql);
 
 $stmt -> execute([
-    intval($_POST['ReservationTime']),
+    $_POST['ReservationTime'],
 ]);
 //將表單放入執行,對應的是name
 

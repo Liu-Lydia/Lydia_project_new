@@ -1,13 +1,8 @@
 <?php
 require __DIR__ . '/db_connect.php';
 
-$title = '驚喜廚房場次';
-$pageName = 'surprise_times';
-
-if (!isset($_SESSION['admins'])) {
-    include __DIR__ . '/surprise_times_noadmin.php';
-    exit;
-}
+$title = '私廚料理場次';
+$pageName = 'kitchen_times';
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $search = isset($_GET['search']) ? ($_GET['search']) : '';
@@ -20,14 +15,14 @@ if (!empty($search)) {
 }
 
 $perPage = 3;
-$t_sql = "SELECT COUNT(1) FROM surprise_times $where";
+$t_sql = "SELECT COUNT(1) FROM kitchen_times $where";
 $totalRows = $pdo->query($t_sql)->fetch()['COUNT(1)'];
 $totalPages = ceil($totalRows / $perPage);
 
 if ($page > $totalPages) $page = $totalPages;
 if ($page < 1) $page = 1;
 
-$p_sql = sprintf("SELECT * FROM surprise_times %s ORDER BY sid ASC LIMIT %s ,%s", $where, ($page - 1) * $perPage, $perPage);
+$p_sql = sprintf("SELECT * FROM kitchen_times %s ORDER BY sid ASC LIMIT %s ,%s", $where, ($page - 1) * $perPage, $perPage);
 
 $stmt = $pdo->query($p_sql);
 ?>
@@ -104,23 +99,15 @@ $stmt = $pdo->query($p_sql);
             <table class="table table-striped text-center">
                 <thead>
                     <tr>
-                        <th></th>
                         <th scope="col">sid</th>
                         <th scope="col">ReservationTime</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($r = $stmt->fetch()) : ?>
                         <tr>
-                            <td class="remove-icon"><a href="javascript:del_it(<?= $r['sid'] ?>)">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a></td>
                             <td><?= $r['sid'] ?></td>
                             <td><?= htmlentities($r['ReservationTime']) ?></td>
-                            <td class="edit-icon"><a href="surprise_times_edit.php?sid=<?= $r['sid'] ?>">
-                                    <i class="fas fa-edit"></i>
-                                </a></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

@@ -1,10 +1,11 @@
 <?php
+require __DIR__ . '/is_admins.php';
 require __DIR__ . '/db_connect.php';
 
 $title = '驚喜廚房項目修改';
 $pageName = 'surprise_list_detail_edit';
 
-if(! isset($_GET['sid'])){
+if (!isset($_GET['sid'])) {
     header('Location: surprise_list_detail.php');
     exit;
 }
@@ -12,10 +13,10 @@ if(! isset($_GET['sid'])){
 $sid = intval($_GET['sid']);
 
 $row = $pdo
-->query("SELECT * FROM surprise_list_detail WHERE sid=$sid")
-->fetch();
+    ->query("SELECT * FROM surprise_list_detail WHERE sid=$sid")
+    ->fetch();
 
-if(empty($row)){
+if (empty($row)) {
     header('Location: surprise_list_detail.php');
     exit;
 }
@@ -31,6 +32,7 @@ if(empty($row)){
 </style>
 
 <div class="container">
+
     <div class="row d-flex justify-content-center">
         <div class="col-lg-6">
 
@@ -39,30 +41,29 @@ if(empty($row)){
             </div>
 
             <div class="card mt-4">
-
                 <div class="card-body pt-0 pb-0">
                     <h5 class="card-title text-center pt-4">編輯驚喜廚房項目</h5>
 
                     <form method="POST" name="form1" novalidate onsubmit="CheckForm(); return false;">
-                    <input type="hidden" name="sid" value="<?= $sid ?>">
+                        <input type="hidden" name="sid" value="<?= $sid ?>">
                         <p class="mt-4">選擇人數</p>
                         <select class="form-control" id="NumPeople" name="NumPeople" value="<?= $row['NumPeople'] ?>">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
+                            <option><?= $row['NumPeople'] ?></option>
+                            <?php for ($i = 1; $i < 7; $i++) : ?>
+                                <?php if ($i != $row['NumPeople']) : ?>
+                                    <option><?= $i ?></option>
+                            <?php endif;
+                            endfor; ?>
                         </select>
 
                         <p class="mt-4">選擇幾道餐數</p>
                         <select class="form-control" id="NumMeal" name="NumMeal" value="<?= $row['NumMeal'] ?>">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
+                            <option><?= $row['NumMeal'] ?></option>
+                            <?php for ($i = 1; $i < 7; $i++) : ?>
+                                <?php if ($i != $row['NumMeal']) : ?>
+                                    <option><?= $i ?></option>
+                            <?php endif;
+                            endfor; ?>
                         </select>
 
                         <div class="form-group mt-4">
@@ -72,14 +73,14 @@ if(empty($row)){
                         </div>
 
                         <div class="d-flex justify-content-center mt-4 pt-4 pb-4">
-                            <button type="submit" class="btn btn-primary">新增</button>
+                            <button type="submit" class="btn btn-primary">修改</button>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 
@@ -125,8 +126,8 @@ if(empty($row)){
                     }
                     info.style.display = 'block';
                 })
-                .catch((err)=>{
-                    console.log('錯誤',err);
+                .catch((err) => {
+                    console.log('錯誤', err);
                 });
         }
     }
