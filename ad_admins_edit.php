@@ -33,10 +33,10 @@ $pageName = 'ad_admins_edit';
                 <div class="card-body">
                     <h5 class="card-title">編輯管理者帳戶</h5>
                     <div class="text-center mt-4 mb-4">
-                        <img alt="" id="preview" onclick="avatar.click()" src="../uploads/<?= $_SESSION['admins']['avatar'] ?>" style="width: 300px; height:300px; background-color:#a2a3a5; ">
+                        <img alt="" id="preview" onclick="avatar.click()" src="./uploads/<?= $_SESSION['admins']['avatar'] ?>" style="width: 300px; height:300px; background-color:#a2a3a5; ">
                     </div>
                     <form name="form1" novalidate onsubmit="CheckForm(); return false;">
-                        <input type="file" id="avatar" name="avatar" accept="image/*" onchange="fileChange()" style="display:none" ;>
+                        <input type="file" id="avatar" name="avatar" accept="image/* " onchange="fileChange()" style="display:none" ;>
 
                         <div class="form-group">
                             <label for="account">Account</label>

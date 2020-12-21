@@ -31,7 +31,7 @@ if(! empty($_FILES) and ! empty($_FILES['avatar']['type']) and $ext_map[$_FILES[
     $filename = uniqid(). $ext_map[$_FILES['avatar']['type']];
     $output['filename'] = $filename;
     if(move_uploaded_file( $_FILES['avatar']['tmp_name'], $upload_folder. '/' . $filename)){
-        $fields[] = "`avatar`= 'filename' ";
+        $fields[] = "`avatar`= '$filename' ";
     }
 }
 

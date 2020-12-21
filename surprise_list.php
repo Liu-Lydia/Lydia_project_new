@@ -99,9 +99,9 @@ $num = $pdo->query($n_sql)->fetchAll();
             </form>
         </div>
     </div>
+
     <form method="GET" name="form1" onsubmit="CheckForm(); return false;">
         <div class="row d-flex justify-content-between mt-3">
-
 
             <?php foreach ($stmt as $r) : ?>
                 <div class="col-lg-3 mt-4 product-unit" id="sid" data-sid="<?= $r['sid'] ?>">
@@ -135,7 +135,6 @@ $num = $pdo->query($n_sql)->fetchAll();
                 </div>
             <?php endforeach; ?>
 
-
         </div>
     </form>
 </div>
@@ -154,7 +153,7 @@ $num = $pdo->query($n_sql)->fetchAll();
             const fd = new FormData(document.form1);
 
             fetch('add_to_cart_api.php', {
-                    method: 'POST',
+                    method: 'GET',
                 })
                 .then(r => r.json())
                 .then(obj => {
