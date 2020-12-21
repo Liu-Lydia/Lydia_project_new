@@ -43,6 +43,7 @@ $stmt = $pdo->query($p_sql);
     .edit-icon a i {
         color: #a2a3a5;
     }
+
 </style>
 
 <div class="container">
@@ -101,8 +102,8 @@ $stmt = $pdo->query($p_sql);
 
     <div class="row">
         <div class="col mt-4">
-            <table class="table table-striped text-center">
-                <thead>
+            <table class="table_style text-center">
+                <thead class="head_style">
                     <tr>
                         <th></th>
                         <th scope="col">sid</th>
@@ -112,7 +113,7 @@ $stmt = $pdo->query($p_sql);
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="content_style">
                     <?php while ($r = $stmt->fetch()) : ?>
                         <tr>
                             <td class="remove-icon"><a href="javascript:del_it(<?= $r['sid'] ?>)">

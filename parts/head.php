@@ -7,6 +7,7 @@
     <title><?= isset($title) ? $title : '' ?></title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="fontawesome/css/all.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>

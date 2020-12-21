@@ -43,7 +43,7 @@ if (!empty($orders)) {
                         <tr class="p-item" data-sid="<?= $sid ?>">
 
                             <td><?= $item['ReservationDate'] ?></td>
-                            <td><?= $item['ReservationTimes'] ?></td>
+                            <td><?= $item['ReservationTime'] ?></td>
                             <td>@mdo</td>
                         </tr>
                     <?php endforeach; ?>

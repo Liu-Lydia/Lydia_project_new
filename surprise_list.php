@@ -15,8 +15,8 @@ if (!empty($search)) {
 }
 
 $perPage = 3;
-$t_sql = "SELECT COUNT(1) FROM surprise_list $where";
-$totalRows = $pdo->query($t_sql)->fetch()['COUNT(1)'];
+$p_sql = "SELECT COUNT(1) FROM surprise_list $where";
+$totalRows = $pdo->query($p_sql)->fetch()['COUNT(1)'];
 $totalPages = ceil($totalRows / $perPage);
 
 if ($page > $totalPages) $page = $totalPages;
@@ -25,6 +25,10 @@ if ($page < 1) $page = 1;
 $p_sql = sprintf("SELECT * FROM surprise_list %s ORDER BY sid ASC LIMIT %s ,%s", $where, ($page - 1) * $perPage, $perPage);
 
 $stmt = $pdo->query($p_sql);
+
+// $p_sql = "SELECT * FROM `surprise_list` JOIN `surprise_times` ON `surprise_list`.`sid`=`surprise_times`.`sid`";
+
+// $rows = $pdo->query($p_sql);
 
 $t_sql = "SELECT * FROM surprise_times WHERE 1";
 $times = $pdo->query($t_sql)->fetchAll();
@@ -100,43 +104,43 @@ $num = $pdo->query($n_sql)->fetchAll();
         </div>
     </div>
 
-    <form method="GET" name="form1" onsubmit="CheckForm(); return false;">
-        <div class="row d-flex justify-content-between mt-3">
 
+    <div class="row d-flex justify-content-between mt-3">
+
+        <form name="form1" onsubmit="CheckForm(); return false;">
             <?php foreach ($stmt as $r) : ?>
-                <div class="col-lg-3 mt-4 product-unit" id="sid" data-sid="<?= $r['sid'] ?>">
+
+                <div class="col-lg-3 mt-4 product-unit" id="sid">
                     <div class="card">
                         <img src="imgs/<?= $r['img'] ?>.jpg" class="card-img-top" alt="">
                         <div class="card-body text-center">
                             <h6 class="card-text">驚喜廚房&nbsp;&nbsp;<?= $r['ReservationDate'] ?></h6>
 
-                            <form>
-                                <div class="form-group">
-                                    <p class="m-0 my-2">選擇場次</p>
-                                    <select class="form-control time" id="ReservationTime" style="display: inline-block; width: auto">
-                                        <?php foreach ($times as $t) : ?>
-                                            <option value="<?= $t['sid'] ?>"><?= $t['ReservationTime'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
 
-                                    <p class="m-0 my-2">選擇餐數</p>
-                                    <select class="form-control qty" id="NumMeal" style="display: inline-block; width: auto">
-                                        <?php foreach ($num as $n) : ?>
-                                            <option value="<?= $n['sid'] ?>"><?= $n['NumMeal'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                            <p class="m-0 my-2">選擇場次</p>
+                            <select class="form-control" id="ReservationTime" style="display: inline-block; width: auto">
+                                <?php foreach ($times as $t) : ?>
+                                    <option value="<?= $t['sid'] ?>"><?= $t['ReservationTime'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
 
-                                    <button type="submit" class="btn btn-primary add-to-cart-btn"><i class="fas fa-cart-plus"></i></button>
-                                </div>
-                            </form>
+                            <p class="m-0 my-2">選擇餐數</p>
+                            <select class="form-control" id="NumMeal" style="display: inline-block; width: auto">
+                                <?php foreach ($num as $n) : ?>
+                                    <option value="<?= $n['sid'] ?>"><?= $n['NumMeal'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
 
+                            <button type="submit" class="btn btn-primary add-to-cart-btn"><i class="fas fa-cart-plus"></i></button>
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
 
-        </div>
-    </form>
+            <?php endforeach; ?>
+        </form>
+
+    </div>
+
 </div>
 
 

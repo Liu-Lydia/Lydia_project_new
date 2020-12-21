@@ -1,0 +1,14 @@
+.table_style{
+    width: 100%;
+    line-height: 40px;
+    justify-content:space-between;
+}
+
+.head_style{
+    background-color: #627E2A;
+    color: #ffffff;
+}
+
+.content_style{
+    color:#a2a3a5;
+}
