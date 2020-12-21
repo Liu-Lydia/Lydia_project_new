@@ -10,7 +10,7 @@ $params = [];
 
 $where = 'WHERE 1';
 if (!empty($search)) {
-    $where .= sprintf(" AND `Numpeople` LIKE %s", $pdo->quote('%' . $search . '%'));
+    $where .= sprintf(" AND `ReservationDate` LIKE %s", $pdo->quote('%' . $search . '%'));
     $params['search'] = $search;
 }
 
@@ -94,60 +94,74 @@ $num = $pdo->query($n_sql)->fetchAll();
 
         <div class="col d-flex flex-row-reverse bd-highlight">
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" name="search" value="<?= htmlentities($search) ?>" placeholder="Numpeople" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" name="search" value="<?= htmlentities($search) ?>" placeholder="ReservationDate" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </div>
+    <form method="GET" name="form1" onsubmit="CheckForm(); return false;">
+        <div class="row d-flex justify-content-between mt-3">
 
-    <div class="row">
-        <?php foreach ($stmt as $r) : ?>
-            <div class="col-lg-3 mt-4" data-sid="<?= $r['sid'] ?>">
-                <div class="card">
-                    <img src="imgs/<?= $r['img'] ?>.jpg" class="card-img-top"  alt="">
-                    <div class="card-body text-center">
-                        <h6 class="card-text">驚喜廚房&nbsp;&nbsp;<?= $r['ReservationDate'] ?></h6>
-                        <form>
-                            <div class="form-group">
-                                <select class="form-control qty" style="display: inline-block; width: auto">
-                                    <?php foreach ($times as $t): ?>
-                                    <option value="<?= $t['sid'] ?>"><?= $t['ReservationTime'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
 
-                                <select class="form-control qty" style="display: inline-block; width: auto">
-                                    <?php foreach ($num as $n): ?>
-                                    <option value="<?= $n['sid'] ?>"><?= $n['NumPeople'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+            <?php foreach ($stmt as $r) : ?>
+                <div class="col-lg-3 mt-4 product-unit" id="sid" data-sid="<?= $r['sid'] ?>">
+                    <div class="card">
+                        <img src="imgs/<?= $r['img'] ?>.jpg" class="card-img-top" alt="">
+                        <div class="card-body text-center">
+                            <h6 class="card-text">驚喜廚房&nbsp;&nbsp;<?= $r['ReservationDate'] ?></h6>
 
-                                <select class="form-control qty" style="display: inline-block; width: auto">
-                                <?php foreach ($num as $n): ?>
-                                    <option value="<?= $n['sid'] ?>"><?= $n['NumMeal'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                            <form>
+                                <div class="form-group">
+                                    <p class="m-0 my-2">選擇場次</p>
+                                    <select class="form-control time" id="ReservationTime" style="display: inline-block; width: auto">
+                                        <?php foreach ($times as $t) : ?>
+                                            <option value="<?= $t['sid'] ?>"><?= $t['ReservationTime'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
 
-                                <button type="button" class="btn btn-primary add-to-cart-btn"><i class="fas fa-cart-plus"></i></button>
-                            </div>
-                        </form>
+                                    <p class="m-0 my-2">選擇餐數</p>
+                                    <select class="form-control qty" id="NumMeal" style="display: inline-block; width: auto">
+                                        <?php foreach ($num as $n) : ?>
+                                            <option value="<?= $n['sid'] ?>"><?= $n['NumMeal'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+
+                                    <button type="submit" class="btn btn-primary add-to-cart-btn"><i class="fas fa-cart-plus"></i></button>
+                                </div>
+                            </form>
+
+                        </div>
                     </div>
                 </div>
+            <?php endforeach; ?>
 
-            </div>
-        <?php endforeach; ?>
-    </div>
 
+        </div>
+    </form>
 </div>
 
 
 <?php include __DIR__ . "/parts/script.php" ?>
 
 <script>
-    function del_it(sid) {
-        if (confirm(`是否刪除 ${sid} 資料`)) {
-            location.href = 'ad_delete.php?sid=' + sid;
+    const sid = document.querySelector('#sid');
+    const ReservationTime = document.querySelector('#ReservationTime');
+    const NumMeal = document.querySelector('#NumMeal');
+
+    function CheckForm() {
+        let isPass = true;
+        if (isPass) {
+            const fd = new FormData(document.form1);
+
+            fetch('add_to_cart_api.php', {
+                    method: 'POST',
+                })
+                .then(r => r.json())
+                .then(obj => {
+                    console.log(obj);
+                })
         }
-    }
+    };
 </script>
 
 <?php include __DIR__ . "/parts/foot.php" ?>

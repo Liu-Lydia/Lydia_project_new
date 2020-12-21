@@ -52,7 +52,7 @@ if (!isset($pageName)) $pageName = '';
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link self-color" href="#">預約驚喜廚房</a>
+                    <a class="nav-link self-color" href="surprise_list.php">預約驚喜廚房</a>
                 </li>
                 <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -71,7 +71,7 @@ if (!isset($pageName)) $pageName = '';
 
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link self-color" href="#">購物車</a>
+                    <a class="nav-link self-color" href="cart_list.php">購物車</a>
                 </li>
 
                 <?php if (isset($_SESSION['admins'])) : ?>
