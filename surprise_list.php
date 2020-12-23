@@ -135,7 +135,8 @@ $num = $pdo->query($n_sql)->fetchAll();
                                 <?php endforeach; ?>
                             </select>
 
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-cart-plus"></i></button>
+                            <button type="submit" class="btn btn-primary"><i class="far fa-calendar-plus"></i>
+                        </button>
                         </div>
 
                     </form>
@@ -154,8 +155,6 @@ $num = $pdo->query($n_sql)->fetchAll();
 
 <script>
     const sid = document.querySelector('#sid');
-    // const ReservationTime = document.querySelector('#ReservationTime');
-    // const NumMeal = document.querySelector('#NumMeal');
 
     function CheckForm(event) {
 

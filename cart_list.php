@@ -21,12 +21,10 @@ $stmt = $pdo->query($p_sql);
             <table class="separate table_style text-center">
                 <thead class="head_style">
                     <tr>
-                        <th class="trleft_style" scope="col">項次</th>
-                        <th scope="col">日期</th>
+                        <th class="trleft_style" scope="col">日期</th>
                         <th scope="col">場次</th>
                         <th scope="col">餐數</th>
                         <th scope="col">人數</th>
-                        <th scope="col">預約金額總計</th>
                         <th class="trright_style" scope="col"></th>
                     </tr>
                 </thead>
@@ -35,8 +33,6 @@ $stmt = $pdo->query($p_sql);
                     <?php while ($r = $stmt->fetch()) : ?>
 
                         <tr class="p-item">
-
-                            <td></td>
 
                             <td>
                                 <?= $r['ReservationDate'] ?>
@@ -58,7 +54,6 @@ $stmt = $pdo->query($p_sql);
                                 </select>
                             </td>
 
-                            <td><?= $i ?></td>
                             <td class="remove-icon"><a href="javascript:del_it(<?= $r['sid'] ?>)">
                                     <i class="fas fa-trash-alt"></i>
                                 </a></td>
@@ -69,15 +64,12 @@ $stmt = $pdo->query($p_sql);
                 </tbody>
             </table>
 
-            <div class="count">小計 :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-
-
             <div class="btn-style">
-                <?php if (isset($_SESSION['admins'])) : ?>
-                    <a href="finish.php"><input class="btn btn-primary" type="submit" value="結帳"></input></a>
+                <?php if (isset($_SESSION['lydia_admins'])) : ?>
+                    <a href="finish.php"><input class="btn btn-primary" type="submit" value="預約"></input></a>
                 <?php else : ?>
                     <div class="alert alert-danger" role="alert">
-                        請先登入才能結帳!
+                        請先登入才能預約!
                     </div>
                 <?php endif; ?>
             </div>
@@ -91,7 +83,7 @@ $stmt = $pdo->query($p_sql);
 <?php include __DIR__ . "/parts/script.php"; ?>
 <script>
     function del_it(sid) {
-        if (confirm(`是否刪除 ${sid} 資料`)) {
+        if (confirm(`是否刪除這筆項目`)) {
             location.href = 'ad_delete.php?sid=' + sid;
         }
     }

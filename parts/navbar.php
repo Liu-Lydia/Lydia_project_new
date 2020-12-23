@@ -74,9 +74,9 @@ if (!isset($pageName)) $pageName = '';
                     <a class="nav-link self-color" href="cart_list.php">購物車</a>
                 </li>
 
-                <?php if (isset($_SESSION['admins'])) : ?>
+                <?php if (isset($_SESSION['lydia_admins'])) : ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="ad_admins_edit.php"><?= $_SESSION['admins']['nickname'] ?></a>
+                        <a class="nav-link" href="ad_admins_edit.php"><?= $_SESSION['lydia_admins']['nickname'] ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">登出</a>

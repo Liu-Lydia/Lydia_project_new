@@ -13,7 +13,7 @@ if(! isset($_POST['ReservationTime'])){
     exit;
 }
 
-$sql = "INSERT INTO `kitchen_times`(`sid`, `ReservationTime`) VALUES (null, ?)";
+$sql = "INSERT INTO `kitchen_times`(`sid`, `ReservationTime`, `CreateTime`) VALUES (null, ?, NOW())";
 //新增整個表單連同sid null也要放入
 
 $stmt = $pdo ->prepare($sql);

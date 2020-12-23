@@ -13,7 +13,7 @@ if(! isset($_POST['OrderPrice'])){
     exit;
 }
 
-$sql = "INSERT INTO `surprise_list_detail`(`sid`, `NumPeople`, `NumMeal`, `OrderPrice`) VALUES (null, ?, ?, ?)";
+$sql = "INSERT INTO `surprise_list_detail`(`sid`, `NumPeople`, `NumMeal`, `OrderPrice`, `CreateTime`) VALUES (null, ?, ?, ?, NOW())";
 //新增整個表單連同sid null也要放入
 
 $stmt = $pdo ->prepare($sql);

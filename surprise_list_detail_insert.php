@@ -54,6 +54,7 @@ $pageName = 'surprise_list_detail_insert';
                     </form>
                 </div>
             </div>
+            
         </div>
     </div>
 

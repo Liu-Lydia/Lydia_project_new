@@ -98,7 +98,9 @@ $stmt = $pdo->query($p_sql);
 
     <div class="row">
         <div class="col mt-4">
+
             <table class="separate table_style text-center">
+
                 <thead class="head_style">
                     <tr>
                         <th class="trleft_style" scope="col">sid</th>
@@ -113,7 +115,9 @@ $stmt = $pdo->query($p_sql);
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
+
             </table>
+            
         </div>
     </div>
 

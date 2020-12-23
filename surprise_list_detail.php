@@ -4,7 +4,7 @@ require __DIR__ . '/db_connect.php';
 $title = '驚喜廚房項目';
 $pageName = 'surprise_list_detail';
 
-if (!isset($_SESSION['admins'])) {
+if (!isset($_SESSION['lydia_admins'])) {
     include __DIR__ . '/surprise_list_detail_noadmin.php';
     exit;
 }
@@ -103,7 +103,9 @@ $stmt = $pdo->query($p_sql);
 
     <div class="row">
         <div class="col mt-4">
+
             <table class="separate table_style text-center">
+
                 <thead class="head_style">
                     <tr>
                         <th class="trleft_style"></th>
@@ -114,23 +116,28 @@ $stmt = $pdo->query($p_sql);
                         <th class="trright_style"></th>
                     </tr>
                 </thead>
+
                 <tbody class="content_style">
                     <?php while ($r = $stmt->fetch()) : ?>
                         <tr>
                             <td class="remove-icon"><a href="javascript:del_it(<?= $r['sid'] ?>)">
                                     <i class="fas fa-trash-alt"></i>
-                                </a></td>
+                                </a>
+                            </td>
                             <td><?= $r['sid'] ?></td>
                             <td><?= $r['NumPeople'] ?></td>
                             <td><?= $r['NumMeal'] ?></td>
                             <td><?= $r['OrderPrice'] ?></td>
                             <td class="edit-icon"><a href="surprise_list_detail_edit.php?sid=<?= $r['sid'] ?>">
                                     <i class="fas fa-edit"></i>
-                                </a></td>
+                                </a>
+                            </td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
+
             </table>
+
         </div>
     </div>
 

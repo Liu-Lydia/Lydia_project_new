@@ -5,7 +5,7 @@ $title = '管理者登入';
 $pageName = 'login';
 
 if (isset($_POST['account']) and isset($_POST['password'])) {
-    $sql = "SELECT * FROM admins WHERE account=? AND password=SHA1(?)";
+    $sql = "SELECT * FROM lydia_admins WHERE account=? AND password=SHA1(?)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         $_POST['account'],
@@ -16,7 +16,7 @@ if (isset($_POST['account']) and isset($_POST['password'])) {
     if (empty($row)) {
         $errormsg = '帳號或密碼錯誤';
     } else {
-        $_SESSION['admins'] = $row;
+        $_SESSION['lydia_admins'] = $row;
     }
 }
 ?>
@@ -42,10 +42,10 @@ if (isset($_POST['account']) and isset($_POST['password'])) {
                     <?= $errormsg ?>
                 </div>
             <?php endif ?>
-            <?php if (isset($_SESSION['admins'])) : ?>
+            <?php if (isset($_SESSION['lydia_admins'])) : ?>
                 <div class="text-center">
                     </br>
-                    <h3>歡迎回來,<?= $_SESSION['admins']['account'] ?></h3>
+                    <h3>歡迎回來,<?= $_SESSION['lydia_admins']['account'] ?></h3>
                     </br>
                     <p><a href="logout.php">登出</a></p>
                 </div>

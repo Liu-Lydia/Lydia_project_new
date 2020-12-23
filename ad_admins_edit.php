@@ -33,18 +33,18 @@ $pageName = 'ad_admins_edit';
                 <div class="card-body">
                     <h5 class="card-title">編輯管理者帳戶</h5>
                     <div class="text-center mt-4 mb-4">
-                        <img alt="" id="preview" onclick="avatar.click()" src="./uploads/<?= $_SESSION['admins']['avatar'] ?>" style="width: 300px; height:300px; background-color:#a2a3a5; ">
+                        <img alt="" id="preview" onclick="avatar.click()" src="./uploads/<?= $_SESSION['lydia_admins']['avatar'] ?>" style="width: 300px; height:auto; background-color:#a2a3a5; ">
                     </div>
                     <form name="form1" novalidate onsubmit="CheckForm(); return false;">
                         <input type="file" id="avatar" name="avatar" accept="image/* " onchange="fileChange()" style="display:none" ;>
 
                         <div class="form-group">
                             <label for="account">Account</label>
-                            <input type="text" class="form-control" value="<?= $_SESSION['admins']['account'] ?>" disabled>
+                            <input type="text" class="form-control" value="<?= $_SESSION['lydia_admins']['account'] ?>" disabled>
                         </div>
                         <div class="form-group">
                             <label for="nickname">Nickname</label>
-                            <input type="text" class="form-control" id="nickname" name="nickname" value="<?= $_SESSION['admins']['nickname'] ?>">
+                            <input type="text" class="form-control" id="nickname" name="nickname" value="<?= $_SESSION['lydia_admins']['nickname'] ?>">
                         </div>
                         <div class="form-group m-0">
                             <label for="password">Old Password</label>

@@ -40,21 +40,21 @@ if(! empty($_FILES) and ! empty($_FILES['avatar']['type']) and $ext_map[$_FILES[
     }
 }
 
-$sql = sprintf("UPDATE `admins` SET %s WHERE sid=? AND password=SHA(?) ", implode(',' ,$fields));
+$sql = sprintf("UPDATE `lydia_admins` SET %s WHERE sid=? AND password=SHA(?) ", implode(',' ,$fields));
 
 $output['sql'] = $sql;
 
 $stmt = $pdo ->prepare($sql);
 
 $stmt -> execute([
-    $_SESSION['admins']['sid'],
+    $_SESSION['lydia_admins']['sid'],
     $_POST['password'],
 ]);
 
 if($stmt -> rowCount()==1){
     $output['success'] = true;
 
-    $_SESSION['admins'] = $pdo->query("SELECT * FROM admins WHERE sid=". intval($_SESSION['admins']['sid']))
+    $_SESSION['lydia_admins'] = $pdo->query("SELECT * FROM lydia_admins WHERE sid=". intval($_SESSION['lydia_admins']['sid']))
     ->fetch();
 }
 

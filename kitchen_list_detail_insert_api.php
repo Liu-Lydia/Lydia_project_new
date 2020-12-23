@@ -13,7 +13,7 @@ if (!isset($_POST['Price'])) {
     exit;
 }
 
-$sql = "INSERT INTO `kitchen_list_detail`(`sid`, `NumPeople`, `SetMeal`, `Price`) VALUES (null, ?, ?, ?)";
+$sql = "INSERT INTO `kitchen_list_detail`(`sid`, `NumPeople`, `SetMeal`, `Price`, `CreateTime`) VALUES (null, ?, ?, ?, NOW())";
 //新增整個表單連同sid null也要放入
 
 $stmt = $pdo->prepare($sql);
