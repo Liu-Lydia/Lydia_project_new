@@ -4,59 +4,97 @@ require __DIR__ . '/db_connect.php';
 $title = '購物車';
 $pageName = 'cart_list';
 
-$orders = array_keys($_SESSION['cart']);
-
-$rows = [];
-$data_ar = [];
-
-if (!empty($orders)) {
-    $sql = sprintf("SELECT * FROM surprise_list WHERE sid IN(%s)", implode(',', $orders));
-    $rows = $pdo->query($sql)->fetchAll();
-
-    foreach ($rows as $r) {
-        $r['NumPeople'] = $_SESSION['cart'][$r['sid']];
-        $data_ar[$r['sid']] = $r;
-    }
-}
+$p_sql = "SELECT * FROM reservation WHERE 1";
+$stmt = $pdo->query($p_sql);
 ?>
 
 <?php include __DIR__ . "/parts/head.php"; ?>
 <?php include __DIR__ . "/parts/navbar.php"; ?>
 
 <div class="container">
-    <div class="row d-flex justify-content-center">
+
+
+
+    <div class="row d-flex justify-content-between">
         <div class="col mt-4">
 
-            <table class="table table-striped">
-                <thead>
+            <table class="separate table_style text-center">
+                <thead class="head_style">
                     <tr>
-                        <th scope="col">項次</th>
+                        <th class="trleft_style" scope="col">項次</th>
                         <th scope="col">日期</th>
                         <th scope="col">場次</th>
                         <th scope="col">餐數</th>
                         <th scope="col">人數</th>
                         <th scope="col">預約金額總計</th>
+                        <th class="trright_style" scope="col"></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php foreach ($_SESSION['cart'] as $sid => $qty) : $item = $data_ar[$sid]; ?>
-                        <tr class="p-item" data-sid="<?= $sid ?>">
+                <tbody class="content_style">
 
-                            <td><?= $item['ReservationDate'] ?></td>
-                            <td><?= $item['ReservationTime'] ?></td>
-                            <td>@mdo</td>
+                    <?php while ($r = $stmt->fetch()) : ?>
+
+                        <tr class="p-item">
+
+                            <td></td>
+
+                            <td>
+                                <?= $r['ReservationDate'] ?>
+                            </td>
+
+                            <td>
+                                <?= $r['ReservationTime'] ?>
+                            </td>
+
+                            <td>
+                                <?= $r['NumMeal'] ?>
+                            </td>
+
+                            <td>
+                                <select class="form-control select_width">
+                                <?php for ($i = 1; $i < 7; $i++) : ?>
+                                <option><?= $i ?></option>
+                            <?php endfor; ?>
+                                </select>
+                            </td>
+
+                            <td><?= $i ?></td>
+                            <td class="remove-icon"><a href="javascript:del_it(<?= $r['sid'] ?>)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a></td>
                         </tr>
-                    <?php endforeach; ?>
+
+                    <?php endwhile; ?>
+
                 </tbody>
             </table>
 
+            <div class="count">小計 :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+
+            <div class="btn-style">
+                <?php if (isset($_SESSION['admins'])) : ?>
+                    <a href="finish.php"><input class="btn btn-primary" type="submit" value="結帳"></input></a>
+                <?php else : ?>
+                    <div class="alert alert-danger" role="alert">
+                        請先登入才能結帳!
+                    </div>
+                <?php endif; ?>
+            </div>
+
+
         </div>
     </div>
+
 </div>
 
 <?php include __DIR__ . "/parts/script.php"; ?>
 <script>
-
+    function del_it(sid) {
+        if (confirm(`是否刪除 ${sid} 資料`)) {
+            location.href = 'ad_delete.php?sid=' + sid;
+        }
+    }
 </script>
 
 <?php include __DIR__ . "/parts/foot.php"; ?>

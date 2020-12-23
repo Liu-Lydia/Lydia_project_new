@@ -26,10 +26,6 @@ $p_sql = sprintf("SELECT * FROM surprise_list %s ORDER BY sid ASC LIMIT %s ,%s",
 
 $stmt = $pdo->query($p_sql);
 
-// $p_sql = "SELECT * FROM `surprise_list` JOIN `surprise_times` ON `surprise_list`.`sid`=`surprise_times`.`sid`";
-
-// $rows = $pdo->query($p_sql);
-
 $t_sql = "SELECT * FROM surprise_times WHERE 1";
 $times = $pdo->query($t_sql)->fetchAll();
 
@@ -48,6 +44,10 @@ $num = $pdo->query($n_sql)->fetchAll();
     .edit-icon a i {
         color: #a2a3a5;
     }
+
+    .card-img-top {
+        width: 200px;
+    }
 </style>
 
 <div class="container">
@@ -56,16 +56,18 @@ $num = $pdo->query($n_sql)->fetchAll();
         <div class="col">
             <nav aria-label="Page navigation example">
                 <ul class="pagination m-0">
-                    <li class="page-item<?= $page == 1 ? 'disable' : '' ?>">
-                        <a class="page-link" href="?<?php $params['page'] = 1;
-                                                    echo http_build_query($params); ?>">
-                            <i class="fas fa-arrow-alt-circle-left"></i>
+                    <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
+                        <a class="page-link" href="?<?php
+                                                    $params['page'] = 1;
+                                                    echo http_build_query($params);
+                                                    ?>">
+                            <i class="fas fa-arrow-alt-circle-left page-color"></i>
                         </a>
                     </li>
                     <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
                         <a class="page-link" href="?<?php $params['page'] = $page - 1;
                                                     echo http_build_query($params); ?>">
-                            <i class="far fa-arrow-alt-circle-left"></i>
+                            <i class="far fa-arrow-alt-circle-left page-color"></i>
                         </a>
                     </li>
 
@@ -83,13 +85,13 @@ $num = $pdo->query($n_sql)->fetchAll();
                     <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
                         <a class="page-link" href="?<?php $params['page'] = $page + 1;
                                                     echo http_build_query($params); ?>">
-                            <i class="far fa-arrow-alt-circle-right"></i>
+                            <i class="far fa-arrow-alt-circle-right page-color"></i>
                         </a>
                     </li>
                     <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
                         <a class="page-link" href="?<?php $params['page'] = $totalPages;
                                                     echo http_build_query($params); ?>">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            <i class="fas fa-arrow-alt-circle-right page-color"></i>
                         </a>
                     </li>
                 </ul>
@@ -104,41 +106,45 @@ $num = $pdo->query($n_sql)->fetchAll();
         </div>
     </div>
 
+    <div class="row mt-3">
+        <div class="col d-flex justify-content-between mt-4">
 
-    <div class="row d-flex justify-content-between mt-3">
-
-        <form name="form1" onsubmit="CheckForm(); return false;">
             <?php foreach ($stmt as $r) : ?>
 
-                <div class="col-lg-3 mt-4 product-unit" id="sid">
-                    <div class="card">
-                        <img src="imgs/<?= $r['img'] ?>.jpg" class="card-img-top" alt="">
+                <div class="card">
+
+                    <form onsubmit="CheckForm(event); return false;">
+                    
+                        <input type="hidden" name="sid" value="<?= $r['sid'] ?>">
+                        <input type="hidden" name="ReservationDate" value="<?= $r['ReservationDate'] ?>">
                         <div class="card-body text-center">
+                            <img src="imgs/<?= $r['img'] ?>.jpg" class="card-img-top" alt="">
                             <h6 class="card-text">驚喜廚房&nbsp;&nbsp;<?= $r['ReservationDate'] ?></h6>
 
-
                             <p class="m-0 my-2">選擇場次</p>
-                            <select class="form-control" id="ReservationTime" style="display: inline-block; width: auto">
+                            <select class="form-control" id="ReservationTime" name="ReservationTime" style="display: inline-block; width: auto">
                                 <?php foreach ($times as $t) : ?>
-                                    <option value="<?= $t['sid'] ?>"><?= $t['ReservationTime'] ?></option>
+                                    <option value="<?= $t['ReservationTime'] ?>"><?= $t['ReservationTime'] ?></option>
                                 <?php endforeach; ?>
                             </select>
 
                             <p class="m-0 my-2">選擇餐數</p>
-                            <select class="form-control" id="NumMeal" style="display: inline-block; width: auto">
+                            <select class="form-control" id="NumMeal" name="NumMeal" style="display: inline-block; width: auto">
                                 <?php foreach ($num as $n) : ?>
-                                    <option value="<?= $n['sid'] ?>"><?= $n['NumMeal'] ?></option>
+                                    <option value="<?= $n['NumMeal'] ?>"><?= $n['NumMeal'] ?></option>
                                 <?php endforeach; ?>
                             </select>
 
-                            <button type="submit" class="btn btn-primary add-to-cart-btn"><i class="fas fa-cart-plus"></i></button>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-cart-plus"></i></button>
                         </div>
-                    </div>
+
+                    </form>
+
                 </div>
 
             <?php endforeach; ?>
-        </form>
 
+        </div>
     </div>
 
 </div>
@@ -148,16 +154,21 @@ $num = $pdo->query($n_sql)->fetchAll();
 
 <script>
     const sid = document.querySelector('#sid');
-    const ReservationTime = document.querySelector('#ReservationTime');
-    const NumMeal = document.querySelector('#NumMeal');
+    // const ReservationTime = document.querySelector('#ReservationTime');
+    // const NumMeal = document.querySelector('#NumMeal');
 
-    function CheckForm() {
+    function CheckForm(event) {
+
+        const ReservationDate = event.currentTarget;
+        console.log(ReservationDate);
+
         let isPass = true;
         if (isPass) {
-            const fd = new FormData(document.form1);
+            const fd = new FormData(ReservationDate);
 
             fetch('add_to_cart_api.php', {
-                    method: 'GET',
+                    method: 'POST',
+                    body: fd
                 })
                 .then(r => r.json())
                 .then(obj => {

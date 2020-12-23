@@ -1,27 +1,77 @@
 <?php
-session_start();
+require __DIR__ . '/db_connect.php';
 
-if(! isset($_SESSION['cart'])){
-    $_SESSION['cart'] = [];
-}
 
-$sid = isset($_GET['sid']) ? intval($_GET['sid']) : 0;
-$time = isset($_GET['ReservationTime']) ? $_GET['ReservationTime'] : 0;
-$qty = isset($_GET['NumMeal']) ? intval($_GET['NumMeal']) : 0;
+// if(empty($_SESSION['cart'])){
+//     echo json_encode([
+//         'code' => 300,
+//         'error' => '購物車沒有任何項目'
+//     ],JSON_UNESCAPED_UNICODE);
+//     exit;
+// }
 
-if(! empty($sid)){
+$output = [
+    'success' => false,
+    'code' => 0,
+    'error' => '參數不足',
+    'post' => $_POST,
+];
 
-    if(! empty($time)){
-        $_SESSION['cart'][$sid] = $time;
-    }else{
-        unset($_SESSION['cart'][$sid]);
-    }
-    if(! empty($qty)){
-        $_SESSION['cart'][$sid] = $qty;
-    }else{
-        unset($_SESSION['cart'][$sid]);
-    }
-}
+// echo json_encode($output, JSON_UNESCAPED_UNICODE);
+// exit;
 
-echo json_encode($_SESSION['cart']);
-header('Content-Type: application/json');
+
+
+$o_sql = "INSERT INTO `reservation`(`sid`, `ReservationDate`, `ReservationTime`, `NumMeal`, `NumPeople`, `OrderPrice`, `OrderDate`) VALUE (null, ?, ?, ?, null, null, NOW())";
+$o_stmt = $pdo->prepare($o_sql);
+
+
+$o_stmt->execute([
+    date($_POST['ReservationDate']),
+    $_POST['ReservationTime'],
+    $_POST['NumMeal'],
+]);
+
+
+
+$output['success']  = true;
+
+
+echo json_encode($output, JSON_UNESCAPED_UNICODE);
+exit;
+
+
+// <?php
+// require __DIR__ . '/is_admins.php';
+// require __DIR__ . '/db_connect.php';
+
+// $output = [
+//     'success' => false,
+//     'code' => 0,
+//     'error' => '參數不足',
+// ];
+
+// if(! isset($_POST['sid'])){
+//     echo json_encode($output, JSON_UNESCAPED_UNICODE);
+//     exit;
+// }
+
+// $sql = "INSERT INTO `reservation`(`sid`, `ReservationDate`, `ReservationTime`, `NumMeal`, `NumPeople`, `OrderPrice`, `OrderDate`) VALUES (null, ?, ?, ?, ?, ?, NOW())";
+// //新增整個表單連同sid null也要放入
+
+// $stmt = $pdo ->prepare($sql);
+
+// $stmt -> execute([
+//     intval($_POST['ReservationDate']),
+//     intval($_POST['ReservationTime']),
+//     intval($_POST['NumMeal']),
+// ]);
+// //將表單放入執行,對應的是name
+
+// $output['rowCount'] = $stmt -> rowCount();
+// if($stmt -> rowCount()){
+//     $output['success'] = true;
+//     unset($output['error']);
+// }
+
+// echo json_encode($output, JSON_UNESCAPED_UNICODE);

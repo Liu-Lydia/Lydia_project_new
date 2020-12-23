@@ -1,14 +1,100 @@
-.table_style{
-    width: 100%;
-    line-height: 40px;
-    justify-content:space-between;
+/* 頁碼CSS */
+.page-color {
+  color: #627e2a;
 }
 
-.head_style{
-    background-color: #627E2A;
-    color: #ffffff;
+.page-link {
+  color: #a2a3a5;
 }
 
-.content_style{
-    color:#a2a3a5;
+.page-link:hover {
+  color: #627e2a;
+}
+
+.page-item.active .page-link {
+  background-color: #627e2a;
+  border-color: #627e2a;
+}
+.btn.btn-primary {
+  background-color: #627e2a;
+  border-color: #627e2a;
+}
+
+.btn:active {
+  background-color: #627e2a;
+  border-color: #627e2a;
+}
+
+.btn-outline-success {
+  border-color: #627e2a;
+  color: #627e2a;
+}
+
+.btn-outline-success:hover {
+  color: #fff;
+  background-color: #627e2a;
+  border-color: #627e2a;
+}
+
+/* 表格CSS */
+.table_style {
+  width: 100%;
+  line-height: 40px;
+  justify-content: space-between;
+  font-family: sans-serif, Arial, Helvetica;
+}
+
+.head_style {
+  background-color: #627e2a;
+  color: #ffffff;
+}
+
+.trleft_style {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.trright_style {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.content_style {
+  color: #a2a3a5;
+  line-height: 60px;
+  border-bottom: #a2a3a5 solid 2px;
+}
+
+/* 登入頁面CSS */
+.btn-primary {
+  color: #fff;
+  background-color: #627e2a;
+  border-color: #627e2a;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #434341;
+  border-color: #434341;
+}
+
+/* 購物車CSS */
+.count {
+  color: #627e2a;
+  font-weight: bold;
+  font-family: sans-serif, Arial, Helvetica;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.btn-style{
+    text-align: right;
+    margin-top: 30px;
+    border-radius: 20px;
+}
+
+.select_width{
+  width: 60px;
+  text-align: center;
+  margin: auto;
 }

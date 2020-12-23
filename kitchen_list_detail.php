@@ -40,28 +40,30 @@ $stmt = $pdo->query($p_sql);
         color: #B9433B;
     }
 
-    .edit-icon a i{
-        color:#a2a3a5;
+    .edit-icon a i {
+        color: #a2a3a5;
     }
 </style>
 
 <div class="container">
 
     <div class="row mt-2">
-        
+
         <div class="col">
             <nav aria-label="Page navigation example">
                 <ul class="pagination m-0">
-                    <li class="page-item<?= $page == 1 ? 'disable' : '' ?>">
-                        <a class="page-link" href="?<?php $params['page'] = 1;
-                                                    echo http_build_query($params); ?>">
-                            <i class="fas fa-arrow-alt-circle-left"></i>
+                    <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
+                        <a class="page-link" href="?<?php
+                                                    $params['page'] = 1;
+                                                    echo http_build_query($params);
+                                                    ?>">
+                            <i class="fas fa-arrow-alt-circle-left page-color"></i>
                         </a>
                     </li>
                     <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
                         <a class="page-link" href="?<?php $params['page'] = $page - 1;
                                                     echo http_build_query($params); ?>">
-                            <i class="far fa-arrow-alt-circle-left"></i>
+                            <i class="far fa-arrow-alt-circle-left page-color"></i>
                         </a>
                     </li>
 
@@ -79,13 +81,13 @@ $stmt = $pdo->query($p_sql);
                     <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
                         <a class="page-link" href="?<?php $params['page'] = $page + 1;
                                                     echo http_build_query($params); ?>">
-                            <i class="far fa-arrow-alt-circle-right"></i>
+                            <i class="far fa-arrow-alt-circle-right page-color"></i>
                         </a>
                     </li>
                     <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
                         <a class="page-link" href="?<?php $params['page'] = $totalPages;
                                                     echo http_build_query($params); ?>">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            <i class="fas fa-arrow-alt-circle-right page-color"></i>
                         </a>
                     </li>
                 </ul>
@@ -102,18 +104,18 @@ $stmt = $pdo->query($p_sql);
 
     <div class="row">
         <div class="col mt-4">
-            <table class="table table-striped text-center">
-                <thead>
+            <table class="separate table_style text-center">
+                <thead class="head_style">
                     <tr>
-                        <th></th>
+                        <th class="trleft_style"></th>
                         <th scope="col">sid</th>
                         <th scope="col">NumPeople</th>
                         <th scope="col">SetMeal</th>
                         <th scope="col">Price</th>
-                        <th></th>
+                        <th class="trright_style"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="content_style">
                     <?php while ($r = $stmt->fetch()) : ?>
                         <tr>
                             <td class="remove-icon"><a href="javascript:del_it(<?= $r['sid'] ?>)">

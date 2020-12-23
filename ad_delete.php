@@ -21,6 +21,11 @@ if (isset($_GET['sid'])) {
     $pdo->query("DELETE FROM `kitchen_times` WHERE sid=$sid");
 }
 
+if (isset($_GET['sid'])) {
+    $sid = intval($_GET['sid']);
+    $pdo->query("DELETE FROM `reservation` WHERE sid=$sid");
+}
+
 $backTo = "surprise_list_detail.php";
 if (isset($_SERVER["HTTP_REFERER"])) {
     $backTo = $_SERVER["HTTP_REFERER"];
@@ -37,6 +42,11 @@ if (isset($_SERVER["HTTP_REFERER"])) {
 }
 
 $backTo = "kitchen_times.php";
+if (isset($_SERVER["HTTP_REFERER"])) {
+    $backTo = $_SERVER["HTTP_REFERER"];
+}
+
+$backTo = "cart_list.php";
 if (isset($_SERVER["HTTP_REFERER"])) {
     $backTo = $_SERVER["HTTP_REFERER"];
 }

@@ -19,6 +19,11 @@ $ext_map = [
 
 $fields = [];
 
+if($_POST['new_password']==null){
+    $output['error']='密碼沒有更改';
+
+}
+
 $fields[] = "`nickname`=". $pdo->quote($_POST['nickname']);
 
 if(! empty($_POST['new_password'])){
